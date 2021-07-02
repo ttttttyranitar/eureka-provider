@@ -12,12 +12,17 @@
 
 package com.demo.controller;
 
+import com.demo.entity.Person;
 import com.demo.service.HealthStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class HelloController {
@@ -27,6 +32,29 @@ public class HelloController {
 
     @Autowired
     HealthStatusService healthStatusService;
+
+
+    AtomicInteger callCount=new AtomicInteger();
+
+
+
+    @GetMapping("/alive")
+    public Object alive(){
+
+        callCount.incrementAndGet();
+        System.out.println("service:"+port+" count: "+callCount);
+        return "service:"+port+" count: "+callCount;
+    }
+
+
+    @PostMapping("/gateway/alive")
+    public Object aliveOnlyToGateway(){
+
+        callCount.incrementAndGet();
+        System.out.println("service:"+port+" count: "+callCount);
+        return "service:"+port+" count: "+callCount;
+    }
+
 
     @GetMapping("/hello")
     public String sayHello(){
@@ -40,5 +68,32 @@ public class HelloController {
 
         healthStatusService.setStatus(status);
       return healthStatusService.isStatus();
+    }
+
+    /**
+     *
+     *
+     * @description 使用map定义远程调用所需要的参数.
+     * @params
+     * @return
+     * @author
+     * @date 22:36 2021/5/19
+     *
+     */
+    @GetMapping("/helloWithMap")
+    public Map<String, String> helloWithMap(@RequestParam Map<String,String> map){
+
+        System.out.println(map.get("name"));
+        String val= port+": "+"hello "+map.get("name");;
+        return Collections.singletonMap(map.get("name"),val);
+    }
+
+    @PostMapping("/helloByObject")
+    public Map<String,String> helloByObject(@RequestBody Person person){
+
+        HashMap<String,String> map=new HashMap<>();
+        map.put("hello","hello, "+person.getName());
+        map.put("id", person.getId());
+        return map;
     }
 }
