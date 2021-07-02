@@ -48,26 +48,26 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- 引入sleuth依赖 -->
+      <!--  &lt;!&ndash; 引入sleuth依赖 &ndash;&gt;
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
 
-        <!-- zipkin -->
+        &lt;!&ndash; zipkin &ndash;&gt;
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
 
 
-        <!-- Admin 服务 -->
+        &lt;!&ndash; Admin 服务 &ndash;&gt;
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
             <version>2.2.1</version>
         </dependency>
-
+-->
 
 
         <dependency>
